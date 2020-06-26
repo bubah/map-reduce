@@ -32,8 +32,7 @@ MinionProcess(interface)
 TempStorage(hash obj: string -> array)
 Results(hash obj: string -> count)
 Queue
- - push
- - pop
+ - dequeue
 MappedResults
 - data
 - count
