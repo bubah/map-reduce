@@ -1,4 +1,6 @@
 import { Queue } from './Queue';
+import { MinionProcess } from './MinionProcess';
+import { Mapper } from './Mapper'
 
 export class MainProcess {
     private words: string[]
@@ -13,7 +15,7 @@ export class MainProcess {
 
     public delegateMap() {
         const queue = this.enqueueInputs()
-        this.forkMinion(1, queue)
+        this.forkMinion(1, queue, Mapper)
     }
 
     public delegateReduce() {
@@ -28,10 +30,9 @@ export class MainProcess {
         return new Queue(this.words)
     }
 
-    private forkMinion(number: number, queue: Queue) {
-        
+    private forkMinion(number: number, queue: Queue, Process: new (input: string, storage: TemporaryStorage) => MinionProcess) {
         while (queue.peek()) {
-            const minion = new MinionProcess(queue.dequeue())
+            const minion = new Process(queue.dequeue()!, {})
             minion.compute()
             minion.writeToTempStorage()
         }
