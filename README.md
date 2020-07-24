@@ -30,6 +30,7 @@ MinionProcess(interface)
     - compute
     - writeToTempStorage
 TempStorage(hash obj: string -> array)
+ - Write(hasg obj:)
 Results(hash obj: string -> count)
 Queue
  - dequeue

@@ -1,9 +1,12 @@
-import { Queue } from './Queue';
+import { ChunkyQueue } from './ChunkyQueue';
 import { MinionProcess } from './MinionProcess';
 import { Mapper } from './Mapper'
 
+type MinionImplementation = typeof MinionProcess & { new (...args: any[]): any; };
+
 export class MainProcess {
     private words: string[]
+    private CHUNK_SIZE = 10
 
     constructor(input: string) {
         this.words = this.splitInput(input)
@@ -26,13 +29,14 @@ export class MainProcess {
         return {}
     }
 
-    private enqueueInputs(): Queue {
-        return new Queue(this.words)
+    private enqueueInputs(): ChunkyQueue {
+        return new ChunkyQueue(this.words, this.CHUNK_SIZE)
     }
 
-    private forkMinion(number: number, queue: Queue, Process: new (input: string, storage: TemporaryStorage) => MinionProcess) {
+    
+    private forkMinion<C extends MinionImplementation>(number: number, queue: ChunkyQueue, Process: C) {
         while (queue.peek()) {
-            const minion = new Process(queue.dequeue()!, {})
+            const minion = new Process(queue.dequeue(), {})
             minion.compute()
             minion.writeToTempStorage()
         }

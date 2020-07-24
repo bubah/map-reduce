@@ -2,4 +2,5 @@ interface Results {
     [key: string]: number;
 }
 
-interface TemporaryStorage {}
+type One = 1; 
+type MapperResult = {[key: string]: One };
