@@ -1,12 +1,13 @@
+import { TempStorage } from './TempStorage'
+
 export abstract class MinionProcess {
     protected readonly input: string[];
-    protected readonly tempStorage: TemporaryStorage;
+    protected readonly tempStorage: TempStorage;
 
-    constructor(input: string[], tempStorage: TemporaryStorage) {
+    constructor(input: string[], tempStorage: TempStorage) {
         this.input = input;
         this.tempStorage = tempStorage;
     }
 
     public abstract compute(): void;
-    public abstract writeToTempStorage(): void;
 }
